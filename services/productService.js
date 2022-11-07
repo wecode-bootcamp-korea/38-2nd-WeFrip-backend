@@ -14,7 +14,6 @@ const getProductMainCategories = async (mainCategoryName, sort, firstDate, lastD
   }
 }
 
-
 const getProductSubCategories = async (mainCategoryName, subCategoryName, sort, firstDate, lastDate) => {
   if (sort) {
     return await productDao.subCategoryFiltering(mainCategoryName, subCategoryName, sort, firstDate, lastDate);
@@ -25,8 +24,13 @@ const getProductSubCategories = async (mainCategoryName, subCategoryName, sort, 
   }
 }
 
+const getDetailProducts = async(productId) => {
+  return await productDao.getDetailProducts(productId);
+}
+
 module.exports = {
   getProducts,
   getProductMainCategories,
-  getProductSubCategories
+  getProductSubCategories,
+  getDetailProducts
 }
