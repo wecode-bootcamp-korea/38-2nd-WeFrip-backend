@@ -21,20 +21,13 @@ const storeKakaoUserInfo = async(kakaoUserInfo) => {
   
   const kakaoId = kakaoUserInfo.id;
   const { email, birthday, gender } = kakaoUserInfo.kakao_account;
-  const { nickname, profileImageUrl } = kakaoUserInfo.kakao_account.profile;
-  
-  let genderId = 0;
-  const GENDER = Object.freeze({
-    male : 1,
-    female : 2,
-    other : 3
-  })
-  genderId = GENDER[gender]
-  
+  const { nickname } = kakaoUserInfo.kakao_account.profile;
+  const profileImageUrl = kakaoUserInfo.kakao_account.profile.profile_image_url;
+    
   const userId = await userDao.getUserIdByKakaoId(kakaoId);
 
   if (!userId) {
-    await userDao.storeKakaoUserInfo(kakaoId, nickname, profileImageUrl, email, birthday, genderId)
+    await userDao.storeKakaoUserInfo(kakaoId, nickname, profileImageUrl, email, birthday, gender)
   }
 };
 
