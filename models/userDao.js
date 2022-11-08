@@ -11,7 +11,15 @@ const getUserIdByKakaoId = async(kakaoId) => {
   return result
 }
 
-const storeKakaoUserInfo = async(kakaoId, nickname, profileImageUrl, email, birthday, genderId) => {
+const storeKakaoUserInfo = async(kakaoId, nickname, profileImageUrl, email, birthday, gender) => {
+
+  let genderId = 0;
+  const GENDER = Object.freeze({
+    male : 1,
+    female : 2,
+    other : 3
+  })
+  genderId = GENDER[gender]
 
   return await appDataSource.query(`
     INSERT INTO users (
