@@ -66,5 +66,5 @@ module.exports = {
   signIn,
   getUser,
   updateUser,
-  updateProfileImage,
+  updateProfileImage
 }
