@@ -7,8 +7,9 @@ const getWishlist = async (userId) => {
       p.id AS productId,
       p.price AS price,
       p.name AS name,
-      p.thumbnail_image_url AS image,
-      lg.name AS locationName
+      p.thumbnail_image_url AS thumbnailImageUrl,
+      p.discount_rate AS discountRate,
+      lg.name AS locationGroupName
     FROM wishlists AS w
     INNER JOIN users AS u ON w.user_id = u.id
     INNER JOIN products AS p ON w.product_id = p.id
