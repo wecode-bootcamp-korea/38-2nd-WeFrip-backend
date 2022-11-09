@@ -17,8 +17,8 @@ const getProducts = async () => {
     JOIN location_groups AS lg ON l.location_group_id = lg.id
     JOIN events AS e ON e.product_id = p.id
     GROUP BY e.title
-  `);
-  return getEventProduct;
+    `);
+    return getEventProduct;
 }
 
 const mainCategoryFiltering = async (mainCategoryName, sort, firstDate, lastDate) => {
@@ -142,10 +142,49 @@ const getProductSubCategories = async (mainCategoryName, subCategoryName) => {
   return productsSubCategories;
 }
 
+const getDetailProducts = async (productId) => {
+  const detailProduct = await appDataSource.query(`
+    SELECT
+      p.name, 
+      p.price,
+      p.discount_rate AS discountRate, 
+      p.thumbnail_image_url AS thumbnailImageUrl,
+      p.description,
+      l.name AS loctionName,
+      l.latitude AS latitude,
+      l.longitude AS longitude,
+      pi.image AS productImages,
+      sq.schedules AS schedules  
+    FROM products AS p
+    LEFT JOIN location l ON p.location_id = l.id
+    LEFT JOIN(
+      SELECT 
+        product_id,
+        JSON_ARRAYAGG(image_url) AS image
+      FROM product_images
+      GROUP BY product_id
+    ) pi ON pi.product_id=p.id
+    LEFT JOIN(
+      SELECT
+        product_id,
+        JSON_ARRAYAGG(
+        JSON_OBJECT(
+          'content', content,
+          'startTime', start_time,
+          'finishTime', finish_time)) AS schedules
+      FROM schedules
+      GROUP BY product_id
+    ) sq ON sq.product_id=p.id
+    WHERE p.id=?
+  `,[productId])
+  return detailProduct;
+}
+
 module.exports = {
   getProducts,
   mainCategoryFiltering,
   getProductMainCategories,
   subCategoryFiltering,
-  getProductSubCategories
+  getProductSubCategories,
+  getDetailProducts
 }

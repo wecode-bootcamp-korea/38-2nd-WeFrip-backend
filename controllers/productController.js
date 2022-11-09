@@ -24,10 +24,20 @@ const getProductSubCategories = catchAsync(async (req, res) => {
   const getProductSubCategories = await productService.getProductSubCategories(mainCategoryName, subCategoryName, sort, firstDate, lastDate);
 
   res.status(200).json({ data : getProductSubCategories });
+
+});
+
+const getDetailProducts = catchAsync(async (req, res) => {
+  const { productId } = req.params;
+
+  const detailProduct = await productService.getDetailProducts(productId);
+
+  res.status(200).json({ data : detailProduct });
 });
 
 module.exports = {
   getProducts,
   getProductMainCategories,
-  getProductSubCategories
+  getProductSubCategories,
+  getDetailProducts
 }
