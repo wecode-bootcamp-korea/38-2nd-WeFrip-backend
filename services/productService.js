@@ -4,23 +4,23 @@ const getProducts = async () => {
   return await productDao.getProducts();
 }
 
-const getProductMainCategories = async (mainCategoryName, sort, firstDate, lastDate) => {  
+const getProductMainCategories = async (mainCategoryName, sort, firstDate, lastDate, userId) => {  
   if (sort) {
-    return await productDao.mainCategoryFiltering(mainCategoryName, sort, firstDate, lastDate);
+    return await productDao.mainCategoryFiltering(mainCategoryName, sort, firstDate, lastDate, userId);
   } else if(firstDate || lastDate) {
-    return await productDao.mainCategoryFiltering(mainCategoryName, sort, firstDate, lastDate);
+    return await productDao.mainCategoryFiltering(mainCategoryName, sort, firstDate, lastDate, userId);
   } else {
-    return await productDao.getProductMainCategories(mainCategoryName);
+    return await productDao.getProductMainCategories(mainCategoryName, userId);
   }
 }
 
-const getProductSubCategories = async (mainCategoryName, subCategoryName, sort, firstDate, lastDate) => {
+const getProductSubCategories = async (mainCategoryName, subCategoryName, sort, firstDate, lastDate, userId) => {
   if (sort) {
-    return await productDao.subCategoryFiltering(mainCategoryName, subCategoryName, sort, firstDate, lastDate);
+    return await productDao.subCategoryFiltering(mainCategoryName, subCategoryName, sort, firstDate, lastDate, userId);
   } else if (firstDate || lastDate) {
-    return await productDao.subCategoryFiltering(mainCategoryName, subCategoryName, sort, firstDate, lastDate);
+    return await productDao.subCategoryFiltering(mainCategoryName, subCategoryName, sort, firstDate, lastDate, userId);
   } else {
-    return await productDao.getProductSubCategories(mainCategoryName, subCategoryName);
+    return await productDao.getProductSubCategories(mainCategoryName, subCategoryName, userId);
   }
 }
 

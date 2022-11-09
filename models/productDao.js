@@ -21,7 +21,7 @@ const getProducts = async () => {
     return getEventProduct;
 }
 
-const mainCategoryFiltering = async (mainCategoryName, sort, firstDate, lastDate) => {
+const mainCategoryFiltering = async (mainCategoryName, sort, firstDate, lastDate, userId) => {
   const orderByObj = {
     desc : `(p.price * (100 - p.discount_rate * 0.01)) DESC`,
     asc : `(p.price * (100 - p.discount_rate * 0.01)) ASC`,
@@ -37,54 +37,102 @@ const mainCategoryFiltering = async (mainCategoryName, sort, firstDate, lastDate
       p.thumbnail_image_url AS thumbnailImageUrl,
       p.name,
       p.price,
-      p.discount_rate AS discountRate
+      p.discount_rate AS discountRate,
+      (
+        SELECT 
+          JSON_ARRAYAGG(
+            JSON_OBJECT(
+              'productId', w.product_id
+            )
+          )       
+        FROM wishlists AS w
+        JOIN users AS u ON w.user_id = u.id
+        JOIN products AS p ON w.product_id = p.id
+        WHERE u.id = ?
+        ) AS wishlists
     FROM products AS p
     JOIN sub_categories AS sc ON p.sub_category_id = sc.id
     JOIN main_categories AS mc ON sc.main_category_id = mc.id
     JOIN location AS l ON p.location_id = l.id
     JOIN location_groups AS lg ON l.location_group_id = lg.id
-    WHERE mc.name = ? AND DATE(first_date) AND (last_date) ${firstDateQuery} ${lastDateQuery}
+    WHERE mc.eng_name = ? AND DATE(first_date) AND (last_date) ${firstDateQuery} ${lastDateQuery}
     ORDER BY ${descAndAsc}  	
     LIMIT 12 OFFSET 0
-  `, [mainCategoryName]);
+  `, [userId, mainCategoryName]);
 
   return filtering;
 }
 
-const getProductMainCategories = async (mainCategoryName) => {
+const getProductMainCategories = async (mainCategoryName, userId) => {
   const productsMainCategories = await appDataSource.query(`
-    SELECT
-      mc.name AS mainCategoryName,
-      (SELECT 
-        JSON_ARRAYAGG(
-          JSON_OBJECT('name', sc.name)
-        ) 
-      FROM sub_categories AS sc
-      JOIN main_categories AS mc ON sc.main_category_id = mc.id
-      WHERE mc.name = ?
-      ) AS subCategories,
-    JSON_ARRAYAGG(
-      JSON_OBJECT(
-        'locationGroupName', lg.name,
-        'thumbnailImageUrl', p.thumbnail_image_url,
-        'name', p.name,
-        'price', p.price,
-        'discountRate', p.discount_rate 
-      )
-    ) AS products
-    FROM products AS p
-    JOIN sub_categories AS sc ON p.sub_category_id = sc.id
-    JOIN main_categories AS mc ON sc.main_category_id = mc.id
-    JOIN location AS l ON p.location_id = l.id
-    JOIN location_groups AS lg ON l.location_group_id = lg.id
-    WHERE mc.name = ?
+    SELECT 
+	    main_categories.id,
+	    mc.mainCategories,
+	    sc.subCategories,
+      (
+        SELECT 
+          JSON_ARRAYAGG(
+            JSON_OBJECT(
+              'productId', w.product_id
+            )
+          )       
+        FROM wishlists AS w
+        JOIN users AS u ON w.user_id = u.id
+        JOIN products AS p ON w.product_id = p.id
+        WHERE u.id = ?
+        ) AS wishlists,
+	    JSON_ARRAYAGG(
+  		  JSON_OBJECT(
+          'id', p.id,
+    		  'locationGroupName', lg.name,
+    		  'thumbnailImageUrl', p.thumbnail_image_url,
+    		  'name', p.name,
+    		  'price', p.price,
+    		  'discountRate', p.discount_rate 
+        )
+	    ) AS products
+	  FROM products AS p
+    JOIN (
+    	SELECT
+    		id, 
+    		JSON_ARRAYAGG(
+				JSON_OBJECT(
+          'id', id,
+					'korName', kor_name,
+					'engName', eng_name
+				)
+			) AS mainCategories
+		  FROM main_categories
+		  WHERE eng_name = ?
+		  GROUP BY id
+    ) AS mc
+	  JOIN (	
+		  SELECT 
+			  main_category_id,
+			  JSON_ARRAYAGG(
+				  JSON_OBJECT(
+            'id', id,
+					  'korName', kor_name,
+					  'engName', eng_name
+				  )
+			  ) as subCategories
+      FROM sub_categories
+		  GROUP BY main_category_id
+	  ) AS sc
+	  ON sc.main_category_id = mc.id
+	  JOIN location AS l ON p.location_id = l.id
+	  JOIN location_groups AS lg ON p.location_id = lg.id
+	  JOIN sub_categories ON p.sub_category_id = sub_categories.id
+	  JOIN main_categories ON sub_categories.main_category_id = main_categories.id
+	  WHERE main_categories.eng_name = ?
+	  GROUP BY main_categories.id, mc.mainCategories, sc.subCategories
     LIMIT 12 OFFSET 0
-  `, [mainCategoryName, mainCategoryName]);
+  `, [userId, mainCategoryName, mainCategoryName]);
 
   return productsMainCategories;
 }
 
-const subCategoryFiltering = async (mainCategoryName, subCategoryName, sort, firstDate, lastDate) => {
+const subCategoryFiltering = async (mainCategoryName, subCategoryName, sort, firstDate, lastDate, userId) => {
   const orderByobj = {
     desc : '(p.price * (100 - p.discount_rate * 0.01)) DESC',
     asc : '(p.price * (100 - p.discount_rate * 0.01)) ASC',
@@ -100,28 +148,54 @@ const subCategoryFiltering = async (mainCategoryName, subCategoryName, sort, fir
       p.thumbnail_image_url AS thumbnailImageUrl,
       p.name,
       p.price,
-      p.discount_rate AS discountRate
+      p.discount_rate AS discountRate,
+      (
+        SELECT 
+          JSON_ARRAYAGG(
+            JSON_OBJECT(
+              'productId', w.product_id
+            )
+          )       
+        FROM wishlists AS w
+        JOIN users AS u ON w.user_id = u.id
+        JOIN products AS p ON w.product_id = p.id
+        WHERE u.id = ?
+        ) AS wishlists
     FROM products AS p
     JOIN sub_categories AS sc ON p.sub_category_id = sc.id
     JOIN main_categories AS mc ON sc.main_category_id = mc.id
     JOIN location AS l ON p.location_id = l.id
     JOIN location_groups AS lg ON l.location_group_id = lg.id
-    WHERE mc.name = ? AND sc.name = ?
+    WHERE mc.eng_name = ? AND sc.eng_name = ?
     AND DATE(first_date) AND (last_date) ${firstDateQuery} ${lastDateQuery}
     ORDER BY ${descAndAsc}  	
     LIMIT 12 OFFSET 0
-  `, [mainCategoryName, subCategoryName]);
+  `, [userId, mainCategoryName, subCategoryName]);
 
   return filtering;
 }
 
-const getProductSubCategories = async (mainCategoryName, subCategoryName) => {
+const getProductSubCategories = async (mainCategoryName, subCategoryName, userId) => {
   const productsSubCategories = await appDataSource.query(`
     SELECT 
-      mc.name AS mainCategoryName,
-      sc.name AS subCategoryName,
+      main_categories.id,
+      mc.mainCategories,
+      sc.subCategories,
+      (
+        SELECT 
+          JSON_ARRAYAGG(
+            JSON_OBJECT(
+              'productId', w.product_id
+            )
+          )       
+        FROM wishlists AS w
+        JOIN users AS u ON w.user_id = u.id
+        JOIN products AS p ON w.product_id = p.id
+        WHERE u.id = ?
+        ) AS wishlists,
       JSON_ARRAYAGG(
         JSON_OBJECT(
+          'id', p.id,
           'locationGroupName', lg.name,
           'thumbnailImageUrl', p.thumbnail_image_url,
           'name', p.name,
@@ -130,14 +204,43 @@ const getProductSubCategories = async (mainCategoryName, subCategoryName) => {
         )
       ) AS products
     FROM products AS p
-    JOIN sub_categories AS sc ON p.sub_category_id = sc.id
-    JOIN main_categories AS mc ON sc.main_category_id = mc.id
+    JOIN (
+      SELECT
+        id, 
+        JSON_ARRAYAGG(
+          JSON_OBJECT(
+            'id', id,
+            'korName', kor_name,
+            'engName', eng_name
+          )
+        ) AS mainCategories
+      FROM main_categories
+      WHERE eng_name = ?
+      GROUP BY id
+    ) AS mc
+    JOIN (	
+      SELECT 
+        main_category_id,
+        JSON_ARRAYAGG(
+          JSON_OBJECT(
+            'id', id,
+            'korName', kor_name,
+            'engName', eng_name
+          )
+        ) as subCategories
+      FROM sub_categories
+      WHERE eng_name = ?
+      GROUP BY main_category_id
+    ) AS sc
+    ON sc.main_category_id = mc.id
     JOIN location AS l ON p.location_id = l.id
-    JOIN location_groups AS lg ON l.location_group_id = lg.id
-    WHERE mc.name = ? AND sc.name = ?
-    GROUP BY mc.name, sc.name
+    JOIN location_groups AS lg ON p.location_id = lg.id
+    JOIN sub_categories ON p.sub_category_id = sub_categories.id
+    JOIN main_categories ON sub_categories.main_category_id = main_categories.id
+    WHERE main_categories.eng_name = ? AND sub_categories.eng_name = ?
+    GROUP BY main_categories.id, mc.mainCategories, sc.subCategories
     LIMIT 12 OFFSET 0
-  `, [mainCategoryName, subCategoryName]);
+  `, [userId, mainCategoryName, subCategoryName, mainCategoryName, subCategoryName]);
 
   return productsSubCategories;
 }

@@ -28,4 +28,26 @@ const loginRequired = async (req, res, next) => {
   next();
 }
 
-module.exports = { loginRequired }
+const optionalLogin = async (req, res, next) => {
+
+  const accessToken = req.headers.authorization;
+
+  if (!accessToken) {
+    
+    return next();
+  }
+  
+  const decoded = await promisify(jwt.verify)(accessToken, process.env.JWT_SECRET);
+
+  const user = await getUserById(decoded.userId);
+
+  if(!user) {
+    
+    return next();
+  }
+
+  req.user = decoded.userId;
+  next();
+}
+
+module.exports = { loginRequired, optionalLogin }

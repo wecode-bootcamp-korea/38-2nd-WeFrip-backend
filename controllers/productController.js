@@ -11,8 +11,9 @@ const getProducts = catchAsync(async (req, res) => {
 const getProductMainCategories = catchAsync(async (req, res) => {
   const { mainCategoryName } = req.params;
   const { sort, firstDate, lastDate } = req.query;
+  const userId = req.user;
 
-  const productsMainCategories = await productService.getProductMainCategories(mainCategoryName, sort, firstDate, lastDate);
+  const productsMainCategories = await productService.getProductMainCategories(mainCategoryName, sort, firstDate, lastDate, userId);
 
   res.status(200).json({ data : productsMainCategories });
 });
@@ -20,8 +21,9 @@ const getProductMainCategories = catchAsync(async (req, res) => {
 const getProductSubCategories = catchAsync(async (req, res) => {
   const { mainCategoryName, subCategoryName } = req.params;
   const { sort, firstDate, lastDate } = req.query;
+  const userId = req.user;
 
-  const getProductSubCategories = await productService.getProductSubCategories(mainCategoryName, subCategoryName, sort, firstDate, lastDate);
+  const getProductSubCategories = await productService.getProductSubCategories(mainCategoryName, subCategoryName, sort, firstDate, lastDate, userId);
 
   res.status(200).json({ data : getProductSubCategories });
 
