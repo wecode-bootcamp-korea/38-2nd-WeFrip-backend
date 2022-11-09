@@ -39,7 +39,7 @@ const getUserById = async(userId) => {
     SELECT
       u.host_name AS hostName,
       u.nickname,
-      u.profile_image_url AS profileImageUrl,
+      u.profile_image_url AS image,
       u.email,
       u.kakao_id AS kakaoId,
       u.phone_number AS phoneNumber,
