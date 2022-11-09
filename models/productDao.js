@@ -170,8 +170,8 @@ const getDetailProducts = async (productId) => {
         JSON_ARRAYAGG(
         JSON_OBJECT(
           'content', content,
-          'startTime', start_time,
-          'finishTime', finish_time)) AS schedules
+          'startTime', TIME_FORMAT(start_time, '%k:%i:%S'),
+          'finishTime', TIME_FORMAT(finish_time, '%k:%i:%S'))) AS schedules
       FROM schedules
       GROUP BY product_id
     ) sq ON sq.product_id=p.id
