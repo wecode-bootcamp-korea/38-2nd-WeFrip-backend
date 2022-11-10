@@ -145,17 +145,20 @@ const getProductSubCategories = async (mainCategoryName, subCategoryName) => {
 const getDetailProducts = async (productId) => {
   const detailProduct = await appDataSource.query(`
     SELECT
+      p.id,
       p.name, 
       p.price,
       p.discount_rate AS discountRate, 
       p.thumbnail_image_url AS thumbnailImageUrl,
       p.description,
-      l.name AS loctionName,
+      l.name AS locationName,
       l.latitude AS latitude,
       l.longitude AS longitude,
       pi.image AS productImages,
-      sq.schedules AS schedules  
+      sq.schedules AS schedules,
+      le.name AS level  
     FROM products AS p
+    LEFT JOIN levels le ON p.level_id = le.id
     LEFT JOIN location l ON p.location_id = l.id
     LEFT JOIN(
       SELECT 
@@ -170,8 +173,8 @@ const getDetailProducts = async (productId) => {
         JSON_ARRAYAGG(
         JSON_OBJECT(
           'content', content,
-          'startTime', start_time,
-          'finishTime', finish_time)) AS schedules
+          'startTime', TIME_FORMAT(start_time, '%k:%i:%S'),
+          'finishTime', TIME_FORMAT(finish_time, '%k:%i:%S'))) AS schedules
       FROM schedules
       GROUP BY product_id
     ) sq ON sq.product_id=p.id
