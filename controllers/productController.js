@@ -2,8 +2,9 @@ const productService = require('../services/productService');
 const { catchAsync } = require('../utils/error');
 
 const getProducts = catchAsync(async (req, res) => {
+  const userId = req.user;
 
-  const products = await productService.getProducts();
+  const products = await productService.getProducts(userId);
 
   res.status(200).json({ data : products });
 });

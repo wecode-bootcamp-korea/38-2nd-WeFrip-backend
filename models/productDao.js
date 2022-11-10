@@ -1,6 +1,6 @@
 const appDataSource = require('./dataSource');
 
-const getProducts = async () => {
+const getProducts = async (userId) => {
   const getEventProduct = await appDataSource.query(`
     SELECT 
       e.title AS eventTitle,
@@ -11,14 +11,27 @@ const getProducts = async () => {
         'price', p.price,
         'discountRate', p.discount_rate,
         'locationGroupName', lg.name
-      )) AS products
+        )
+      ) AS products,
+    (
+    SELECT 
+      JSON_ARRAYAGG(
+        JSON_OBJECT(
+          'productId', w.product_id
+        )
+      )       
+    FROM wishlists AS w
+    JOIN users AS u ON w.user_id = u.id
+    JOIN products AS p ON w.product_id = p.id
+    WHERE u.id = ?
+    ) AS wishlists
     FROM products AS p
     JOIN location AS l ON p.location_id = l.id
     JOIN location_groups AS lg ON l.location_group_id = lg.id
     JOIN events AS e ON e.product_id = p.id
     GROUP BY e.title
-    `);
-    return getEventProduct;
+  `, [userId]);
+  return getEventProduct;
 }
 
 const mainCategoryFiltering = async (mainCategoryName, sort, firstDate, lastDate, userId) => {
