@@ -28,9 +28,46 @@ const getDetailProducts = async(productId) => {
   return await productDao.getDetailProducts(productId);
 }
 
+const createProduct = async(userId, name, firstDate, lastDate, price, description, thumbnailImageUrl, participants, discountRate, scheduleTitle, scheduleEtc, classTypeId, subCategoryId, levelId, locationName, locationLatitude, locationLongitude, locationPlaceUrl, locationGroupName) => {
+
+  const productId = await productDao.createProduct(userId, name, firstDate, lastDate, price, description, thumbnailImageUrl, participants, discountRate, scheduleTitle, scheduleEtc, classTypeId, subCategoryId, levelId, locationName, locationLatitude, locationLongitude, locationPlaceUrl, locationGroupName)
+
+  return productId;
+}
+
+const addProductImages = async(productId, productImagesUrl) => {
+  
+  for (let i = 0; i < productImagesUrl.length; i++) {
+    await productDao.addProductImages(productId, productImagesUrl[i]);
+  }
+
+}
+
+const addSchedule = async(productId, schedulesArr) => {
+
+  for (let i = 0; i < schedulesArr.length; i++) {
+    await productDao.addSchedule(productId, schedulesArr[i]);
+  }
+
+}
+
+const getProductsList = async(userId) => {
+  return await productDao.getProductsList(userId);
+};
+
+const deleteProduct = async(userId, productId) => {
+
+  return await productDao.deleteProduct(userId, productId);
+};
+
 module.exports = {
   getProducts,
   getProductMainCategories,
   getProductSubCategories,
-  getDetailProducts
+  getDetailProducts,
+  createProduct,
+  addProductImages,
+  addSchedule,
+  getProductsList,
+  deleteProduct
 }

@@ -20,9 +20,10 @@ const addWishlist = catchAsync(async (req, res) => {
   const userId = req.user;
   const { productId } = req.body;
 
-  await wishlistService.addWishlist(userId, productId);
+  const wishlistId = await wishlistService.addWishlist(userId, productId);
   res.status(201).json({ 
-    massage : 'success'
+    massage : 'success',
+    wishlistId : wishlistId
   })
 });
 

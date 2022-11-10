@@ -3,7 +3,6 @@ const { promisify } = require('util');
 const { getUserById } = require('../services/userService');
 
 const loginRequired = async (req, res, next) => {
-
   const accessToken = req.headers.authorization;
 
   if (!accessToken) {
@@ -23,8 +22,8 @@ const loginRequired = async (req, res, next) => {
 
     return res.status(error.statusCode).json({ message : error.message });
   }
-
   req.user = decoded.userId;
+  
   next();
 }
 

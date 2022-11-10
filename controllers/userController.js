@@ -5,7 +5,6 @@ const signIn = catchAsync(async(req, res) => {
   const { kakaoAccessToken } = req.body;
   
   const kakaoUserInfo = await userService.getKakaoUserInfo(kakaoAccessToken);
-
   await userService.storeKakaoUserInfo(kakaoUserInfo);
 
   const token = await userService.generateToken(kakaoUserInfo);
