@@ -299,11 +299,131 @@ const getDetailProducts = async (productId) => {
   return detailProduct;
 }
 
+const addProductImages = async(productId, productImageUrl) => {
+  await appDataSource.query(`
+    INSERT INTO product_images (
+      image_url,
+      product_id
+    ) VALUES (?, ?);`,
+    [ productImageUrl, productId ]
+  )
+}
+
+const createProduct = async(userId, name, firstDate, lastDate, price, description, thumbnailImageUrl, participants, discountRate, scheduleTitle, scheduleEtc, classTypeId, subCategoryId, levelId, locationName, locationLatitude, locationLongitude, locationPlaceUrl, locationGroupName) => {
+
+  const locationGroup = await appDataSource.query(`
+    INSERT INTO location_groups (
+      name
+    ) VALUES (?);`,
+    [ locationGroupName ]
+  )
+
+  const location = await appDataSource.query(`
+    INSERT INTO location (
+      name,
+      latitude,
+      longitude,
+      place_url,
+      location_group_id
+    ) VALUES (?, ?, ?, ?, ?);`,
+    [ locationName, locationLatitude, locationLongitude, locationPlaceUrl, locationGroup.insertId ]
+  )
+
+  const product = await appDataSource.query(`
+  INSERT INTO products (
+    name,
+    first_date,
+    last_date,
+    price,
+    description,
+    thumbnail_image_url,
+    participants,
+    discount_rate,
+    schedule_title,
+    schedule_etc,
+    class_type_id,
+    sub_category_id,
+    user_id,
+    level_id,
+    location_id
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+  [ name, firstDate, lastDate, price, description, thumbnailImageUrl, participants, discountRate, scheduleTitle, scheduleEtc, classTypeId, subCategoryId, userId, levelId, location.insertId ]
+  )
+
+  return product.insertId;
+}
+
+const addSchedule = async(productId, schedule) => {
+  
+  const { startTime, finishTime, minutes, content } = schedule
+
+  await appDataSource.query(`
+    INSERT INTO schedules (
+      start_time,
+      finish_time,
+      minutes,
+      content,
+      product_id
+    ) VALUES (?, ?, ?, ?, ?);`,
+    [ startTime, finishTime, minutes, content, productId ]
+  )
+}
+
+const getProductsList = async (userId) => {
+  return await appDataSource.query(`
+    SELECT
+      p.id AS productId,
+      p.name,
+      p.thumbnail_image_url AS image,
+      p.last_date AS lastDate,
+      s.kor_name AS subCategoryKorName
+    FROM products AS p
+    JOIN sub_categories AS s ON p.sub_category_id = s.id
+    WHERE p.user_id = ?;`,
+    [ userId ]
+  );
+};
+
+const deleteProduct = async (userId, productId) => {
+  await appDataSource.query(`
+    DELETE
+    FROM product_images AS pi
+    WHERE pi.product_id = ?;`,
+    [ productId ]
+  )
+  
+  await appDataSource.query(`
+    DELETE
+    FROM events AS e
+    WHERE e.product_id = ?;`,
+    [ productId ]  
+  )
+  
+  await appDataSource.query(`
+    DELETE
+    FROM schedules AS s
+    WHERE s.product_id = ?;`,
+    [ productId ]
+  )
+
+  return await appDataSource.query(`
+    DELETE
+    FROM products AS p
+    WHERE p.user_id = ? AND p.id = ?;`,
+    [ userId, productId ]
+  )
+};
+
 module.exports = {
   getProducts,
   mainCategoryFiltering,
   getProductMainCategories,
   subCategoryFiltering,
   getProductSubCategories,
-  getDetailProducts
+  getDetailProducts,
+  addProductImages,
+  createProduct,
+  addSchedule,
+  getProductsList,
+  deleteProduct
 }
