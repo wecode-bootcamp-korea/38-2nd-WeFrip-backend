@@ -45,6 +45,9 @@
 - [Notion](https://www.notion.so/4-WeFrip-4c38f40624814f47bfaebaa9ba5c09ee)
 - [Trello](https://trello.com/b/1nfFkHGw/frip)
 - [ERD](https://dbdiagram.io/d/635f86925170fb6441c8d65b)
+- [API - Products Request](https://documenter.getpostman.com/view/22962796/2s8YYJr3W2#f5c3d354-1929-4ae7-abd1-b2ca3092bc5e)
+- [API - Users Request](https://documenter.getpostman.com/view/24184557/2s8YemtDeG)
+- [API - Wishlists Request](https://documenter.getpostman.com/view/20680731/2s8YemtDiX)
 
 
 ## Demo Video
