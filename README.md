@@ -1,9 +1,24 @@
 # 38-2nd-WeFrip-backend
-박은송, 신인혁, 천송인
+박은송, 신인혁, 천송인(PM)
 
 - 프로젝트 사이트 -> **Frip**
-- 나이키는 운동선수들을 위한 스포츠 의류 기업으로 세계적인 스포츠웨어 e-commerce 사이트이다. -> 변경 요청
-- 직관적인 UI와 다양한 상품 필터링으로 구성되어있어, 사용자에게 편리한 UX를 제공한다. -> 변경 요청
+- WeFrip은 누구나 원하는 취미 여가 생활을 쉽고 당연하게 즐길 수 있는 환경을 만들고자 합니다.
+
+## 기획의도
+- WeFrip은 구매력이 높고 건강한 라이프 스타일을 추구하는 MZ세대들의 커뮤니티입니다.
+- 이전 세대와는 다르게 워라밸과 건강한 여가생활에 대한 관심이 높아짐에 따라 이러한 서비스의 필요성이 대두되었습니다.
+- WeFrip은 단순히 보여주는 것이 아닌 직접 찹여하고 경험하는 것입니다.
+
+## 핵심 기능
+- 누구나 호스트가 되어 프로그램을 진행할 수 있습니다.
+- 편리하고 쉽게 상품을 등록할 수 있습니다.
+- 호스트가 되어 수익을 창출할 수 있습니다.
+- 나와 같은 취미를 가진 사람들과 커뮤니티를 형성할 수 있습니다.
+
+## 기대 효과
+- 매일 반복되는 일상에 지쳐있다. -> 새로운 일상에 기대감이 가득 차게 된다.
+- 나와 같은 취미를 가진 사람들을 만날 기회가 적다. -> 나와 같은 취미를 가진 사람들과 커뮤니티를 형성할 수 있다.
+- 건강한 삶과는 거리가 멀다. -> 취미활동을 통해 건강한 삶을 영위할 수 있다.
 
 ## 개발 기간
 
@@ -15,25 +30,22 @@
 
 |김온누리|이진혁|최규흠|
 | :--: | :--: | :--: |
-|<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/108847541?v=4" alt="avatar" />               |<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/70960594?v=4" alt="avatar" />                |<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/105492581?v=4" alt="avatar" />               |<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/107871028?v=4" alt="avatar" />              |
-| [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/choigus98) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/imchloedev) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/KMK99cone) |
+|<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/83803971?v=4" alt="avatar" />               |<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/97172321?v=4" alt="avatar" />                |<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/93311025?v=4" alt="avatar" />               |
+| [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/onnuring) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/zinukk) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/EDGEPECT) |
 
 ### Back-end Developers
 
 |박은송|신인혁|천송인|
 | :--: | :--: | :--: |
-|<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/110589528?v=4" alt="avatar" />                |<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/50650892?v=4" alt="avatar" />              |<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/111448985?v=4" alt="avatar" />                 |
-| [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/ShinInHuck) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/iflov) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/Eunsong-Park) |
+|<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/111448985?v=4" alt="avatar" />                |<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/110589528?v=4" alt="avatar" />              |<img width="95px" height="95px" src="https://avatars.githubusercontent.com/u/100663230?v=4" alt="avatar" />                 |
+| [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/Eunsong-Park) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/ShinInHuck) | [<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=GitHub&logoColor=white"/>](https://github.com/csongin) |
 
 ## Project Archive
 
-- [Notion](https://coordinated-roquefort-606.notion.site/38-5-JustWeDoIt-02fa09e5f9454d9e9f5e784187570a99)
-- [Figma](https://www.figma.com/file/yAentcZEkANNjqu5Q3SyS0/justwedoit?node-id=0%3A1)
-- [ERD](https://dbdiagram.io/d/63521f6c4709410195ad4757)
+- [Notion](https://www.notion.so/4-WeFrip-4c38f40624814f47bfaebaa9ba5c09ee)
+- [Trello](https://trello.com/b/1nfFkHGw/frip)
+- [ERD](https://dbdiagram.io/d/635f86925170fb6441c8d65b)
 
-## 프로젝트 선정 이유
-
-- 다양한 레이아웃과 여러가지 기능을 구현하면서 학습하기에 적합한 사이트라고 생각되어 선정하게 되었습니다.
 
 ## Demo Video
 
