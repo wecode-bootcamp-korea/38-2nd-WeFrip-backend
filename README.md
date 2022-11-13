@@ -59,9 +59,9 @@
 
 ### Front-End
 
-|JavaScript|React|Sass|esLint|Prettier|
+|JavaScript|React|Styled Component|esLint|Prettier|
 | :--: | :--: | :--: | :--: | :--: |
-| <img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="65" height="65" /> | <img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="65" height="65" /> | <img src="https://techstack-generator.vercel.app/sass-icon.svg" alt="icon" width="65" height="65" /></div> | <img src="https://techstack-generator.vercel.app/eslint-icon.svg" alt="icon" width="65" height="65" /> | <img src="https://techstack-generator.vercel.app/prettier-icon.svg" alt="icon" width="65" height="65" /> |
+| <img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="65" height="65" /> | <img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="65" height="65" /> | <img src="https://i.ibb.co/ydkG6cv/img.png" alt="icon" width="65" height="65" /></div> | <img src="https://techstack-generator.vercel.app/eslint-icon.svg" alt="icon" width="65" height="65" /> | <img src="https://techstack-generator.vercel.app/prettier-icon.svg" alt="icon" width="65" height="65" /> |
 
 ### Back-End
 
@@ -79,13 +79,12 @@
 
 | |페이지 및 기능 구현| 설명 | 담당 개발자 |
 | :--: | :--: | :--: | :--: |
-|Main Page & Carousel |![mainpage](https://user-images.githubusercontent.com/70960594/198539167-043192e3-dc44-49b9-87a4-bd5f5c49ddb5.gif)| - 메인페이지 레이아웃 </br> - 추천 상품 캐러셀 구현| **FRONT-END** </br> `김민경` </br>`강은지` </br> **BACK-END** </br> `이현태`|
-| Sign Up|![SignUp](https://user-images.githubusercontent.com/70960594/198539664-7788560a-4eef-4df0-98b6-5df3d357ba99.gif)| - 유효성검사에 따른 회원가입 구현| **FRONT-END** </br> `김민경` </br> **BACK-END** </br> `신인혁`|
-| Sign In|![SignIn](https://user-images.githubusercontent.com/70960594/198539736-6da97d5a-3bb9-40b2-9c94-ae52c4cbaa9a.gif)| - JWT를 활용한 로그인 구현 |  **FRONT-END** </br> `김민경` </br> **BACK-END** </br> `신인혁` |
-|Infinite Scroll |![InfiniteScroll](https://user-images.githubusercontent.com/70960594/198539779-65de330b-b90f-42fc-b0e6-333ef86a5fd5.gif)| - | **FRONT-END**`정현석`  </br> **BACK-END** </br> `이현태` |
-|Filter|![Filter](https://user-images.githubusercontent.com/70960594/198539823-21395c60-fb52-4765-8ca8-2913ff975a14.gif)| - queryString 을 활용한 필터링 기능 구현 | **FRONT-END** </br> `정현석`  </br> **BACK-END** </br> `이현태` |
-| Category |![Categories](https://user-images.githubusercontent.com/70960594/198539860-22a12854-4702-4fa1-a426-36a3fa79d73a.gif)| - Category Id 별 페이지 이동 |**FRONT-END** </br>`강은지` </br> **BACK-END** </br> `이현태` |
-|Product Detail |![productdetail](https://user-images.githubusercontent.com/70960594/198539907-4378365d-caa1-478f-8583-5dec44a6d492.gif)| - 상품 추가 시 장바구니 모달 창 구현 </br> - 사이즈 컴포넌트 분리 후 재고에 따른 선택 기능 구현 | **FRONT-END** </br> `강은지` </br> **BACK-END** </br> `이현태`, `박은송` |
-| Cart |![Cart](https://user-images.githubusercontent.com/70960594/198539958-2ad4bf52-e89e-4c8b-91fa-d9726a47d78a.gif)| - | **FRONT-END** </br> `최현` </br> **BACK-END** </br> `박은송` | 
-|Navigation Bar & Search |![Search](https://user-images.githubusercontent.com/70960594/198539983-01ee0550-00eb-4a9f-ab5b-fd2c4a6c6ed6.gif)| - 검색 모달창 구현 | **FRONT-END**</br> `강은지` </br> **BACK-END** </br> `이현태`  |
+|Login Page|![Social Login](https://k.kakaocdn.net/dn/AyfwZ/btrQ2fTm5pZ/8THBMKaftqIoixgitr8Qyk/img.gif)| - kakao 소셜 로그인 구현 | **FRONT-END** </br> `김온누리` </br> **BACK-END** </br> `박은송`|
+|Main Page|![Main Page](https://k.kakaocdn.net/dn/cop7Zu/btrQZ4rPiD0/zZ0YmkHJjgie7Gn8m7HFtK/img.gif)| - react-slick을 이용한 배너캐러셀 </br> - 카테고리에 맞는 상품 렌더링 </br> - 북마크 클릭시 위시리스트에 상품 추가 및 삭제| **FRONT-END** </br> `이진혁` </br> **BACK-END** </br> `천송인`|
+|Wishlist Page|![Wishlist Page](https://k.kakaocdn.net/dn/IRLcD/btrQ3TWEme3/nACg8GmVmF2Tkk11txx4A0/img.gif)| - 위시리스트에 저장된 상품들을 렌더링 |  **FRONT-END** </br> `최규흠` </br> **BACK-END** </br> `신인혁` |
+|Products Page |![Products Page](https://k.kakaocdn.net/dn/dzEp0O/btrQ4XYNXBI/RANcxFDSx1VK7u6Fo8ekTK/img.gif)| - react-slick을 이용한 상품 캐러셀 구현 </br> - kakao map을 이용한 장소 마커 표시, 클릭시 해당 장소 정보 열람 가능 | **FRONT-END** </br> `이진혁` </br> **BACK-END** </br> `신인혁`|
+|Category Page & Filter|![Category Page & Filter](https://k.kakaocdn.net/dn/kw91P/btrQ1gdWbyz/souvyUWxkHw7M2Pjez2lvk/img.gif)| - queryString 을 활용한 필터링 기능 구현 | **FRONT-END** </br> `김온누리`  </br> **BACK-END** </br> `천송인` |
+| Mypage |![Mypage](https://k.kakaocdn.net/dn/EF9G3/btrQ0G5czKh/5RenKR0VA4T4GkW31cxlZ0/img.gif)| - 마이페이지 설명 |**FRONT-END** </br>`최규흠` </br> **BACK-END** </br> `박은송` |
+|Host Page|![Host Page](https://k.kakaocdn.net/dn/bd8gKU/btrQ8HOGdSM/d3vHfZt9VBDSZ0ljODrWa1/img.gif)| - 상품 등록을 위한 단계별 Tab bar 구현 </br> - kakao map을 커스텀하여 키워드 검색시 해당 키워드와 관련이 있는 장소를 리스팅하고 마커로 표시  </br> - 누리님 부분 설명 | **FRONT-END** </br> `김온누리` </br> `이진혁` </br> **BACK-END** </br> `박은송` |
+| List Page |![List Page](https://k.kakaocdn.net/dn/bd8gKU/btrQ8HOGdSM/d3vHfZt9VBDSZ0ljODrWa1/img.gif)| - 유저가 등록한 상품들을 조회 및 삭제 기능 </br> - 해당 상품 클릭시 상품에 대한 detail page로 이동 | **FRONT-END** </br> `이진혁` </br> **BACK-END** </br> `박은송` | 
 
