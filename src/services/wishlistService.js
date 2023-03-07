@@ -1,18 +1,18 @@
-const wishlistDao = require('../models/wishlistDao');
+const wishlistDao = require("../models/wishlistDao");
 
-const getWishlist = async(userId) => {
+const getWishlist = async (userId) => {
   return await wishlistDao.getWishlist(userId);
 };
 
-const deleteWishlist = async(userId, productId) => {
+const deleteWishlist = async (userId, productId) => {
   return await wishlistDao.deleteWishlist(userId, productId);
 };
 
-const addWishlist = async(userId, productId) => {
-  const checkWishlist = await wishlistDao.checkWishlist(userId, productId)
-  if(!checkWishlist.length){
+const addWishlist = async (userId, productId) => {
+  const checkWishlist = await wishlistDao.checkWishlist(userId, productId);
+  if (!checkWishlist.length) {
     return await wishlistDao.addWishlist(userId, productId);
-  } else{
+  } else {
     return await wishlistDao.deleteWishlist(userId, productId);
   }
 };
@@ -20,5 +20,5 @@ const addWishlist = async(userId, productId) => {
 module.exports = {
   getWishlist,
   deleteWishlist,
-  addWishlist
-}
+  addWishlist,
+};

@@ -1,12 +1,12 @@
-const productService = require('../services/productService');
-const { catchAsync } = require('../utils/error');
+const productService = require("../services/productService");
+const { catchAsync } = require("../utils/error");
 
 const getProducts = catchAsync(async (req, res) => {
   const userId = req.user;
 
   const products = await productService.getProducts(userId);
 
-  res.status(200).json({ data : products });
+  res.status(200).json({ data: products });
 });
 
 const getProductMainCategories = catchAsync(async (req, res) => {
@@ -14,9 +14,15 @@ const getProductMainCategories = catchAsync(async (req, res) => {
   const { sort, firstDate, lastDate } = req.query;
   const userId = req.user;
 
-  const productsMainCategories = await productService.getProductMainCategories(mainCategoryName, sort, firstDate, lastDate, userId);
+  const productsMainCategories = await productService.getProductMainCategories(
+    mainCategoryName,
+    sort,
+    firstDate,
+    lastDate,
+    userId
+  );
 
-  res.status(200).json({ data : productsMainCategories });
+  res.status(200).json({ data: productsMainCategories });
 });
 
 const getProductSubCategories = catchAsync(async (req, res) => {
@@ -24,10 +30,16 @@ const getProductSubCategories = catchAsync(async (req, res) => {
   const { sort, firstDate, lastDate } = req.query;
   const userId = req.user;
 
-  const getProductSubCategories = await productService.getProductSubCategories(mainCategoryName, subCategoryName, sort, firstDate, lastDate, userId);
+  const getProductSubCategories = await productService.getProductSubCategories(
+    mainCategoryName,
+    subCategoryName,
+    sort,
+    firstDate,
+    lastDate,
+    userId
+  );
 
-  res.status(200).json({ data : getProductSubCategories });
-
+  res.status(200).json({ data: getProductSubCategories });
 });
 
 const getDetailProducts = catchAsync(async (req, res) => {
@@ -35,10 +47,10 @@ const getDetailProducts = catchAsync(async (req, res) => {
 
   const detailProduct = await productService.getDetailProducts(productId);
 
-  res.status(200).json({ data : detailProduct });
+  res.status(200).json({ data: detailProduct });
 });
 
-const createProduct = catchAsync(async(req, res) => {
+const createProduct = catchAsync(async (req, res) => {
   const userId = req.user;
   const {
     name,
@@ -65,10 +77,30 @@ const createProduct = catchAsync(async(req, res) => {
   const thumbnailImageUrl = files[0].location;
   const productImagesUrl = [];
   for (let i = 1; i < files.length; i++) {
-    productImagesUrl.push(files[i].location)
+    productImagesUrl.push(files[i].location);
   }
 
-  const productId = await productService.createProduct(userId, name, firstDate, lastDate, price, description, thumbnailImageUrl, participants, discountRate, scheduleTitle, scheduleEtc, classTypeId, subCategoryId, levelId, locationName, locationLatitude, locationLongitude, locationPlaceUrl, locationGroupName);
+  const productId = await productService.createProduct(
+    userId,
+    name,
+    firstDate,
+    lastDate,
+    price,
+    description,
+    thumbnailImageUrl,
+    participants,
+    discountRate,
+    scheduleTitle,
+    scheduleEtc,
+    classTypeId,
+    subCategoryId,
+    levelId,
+    locationName,
+    locationLatitude,
+    locationLongitude,
+    locationPlaceUrl,
+    locationGroupName
+  );
 
   await productService.addProductImages(productId, productImagesUrl);
 
@@ -76,17 +108,17 @@ const createProduct = catchAsync(async(req, res) => {
   await productService.addSchedule(productId, schedulesArr);
 
   return res.status(201).json({
-    message : 'PRODUCT_CREATED',
-    productId : productId
-  })
-})
+    message: "PRODUCT_CREATED",
+    productId: productId,
+  });
+});
 
 const getProductsList = async (req, res) => {
   const userId = req.user;
   const productsList = await productService.getProductsList(userId);
-  
-  return res.status(201).json({ data : productsList });
-}
+
+  return res.status(201).json({ data: productsList });
+};
 
 const deleteProduct = catchAsync(async (req, res) => {
   const userId = req.user;
@@ -104,4 +136,4 @@ module.exports = {
   createProduct,
   getProductsList,
   deleteProduct,
-}
+};

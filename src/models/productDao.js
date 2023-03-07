@@ -1,7 +1,8 @@
-const appDataSource = require('./dataSource');
+const appDataSource = require("./dataSource");
 
 const getProducts = async (userId) => {
-  const getEventProduct = await appDataSource.query(`
+  const getEventProduct = await appDataSource.query(
+    `
     SELECT 
       e.title AS eventTitle,
       JSON_ARRAYAGG(JSON_OBJECT(
@@ -30,21 +31,30 @@ const getProducts = async (userId) => {
     JOIN location_groups AS lg ON l.location_group_id = lg.id
     JOIN events AS e ON e.product_id = p.id
     GROUP BY e.title
-  `, [userId]);
+  `,
+    [userId]
+  );
   return getEventProduct;
-}
+};
 
-const mainCategoryFiltering = async (mainCategoryName, sort, firstDate, lastDate, userId) => {
+const mainCategoryFiltering = async (
+  mainCategoryName,
+  sort,
+  firstDate,
+  lastDate,
+  userId
+) => {
   const orderByObj = {
-    desc : `(p.price * (100 - p.discount_rate * 0.01)) DESC`,
-    asc : `(p.price * (100 - p.discount_rate * 0.01)) ASC`,
-    latest : `p.created_at DESC`
-  }
+    desc: `(p.price * (100 - p.discount_rate * 0.01)) DESC`,
+    asc: `(p.price * (100 - p.discount_rate * 0.01)) ASC`,
+    latest: `p.created_at DESC`,
+  };
   const descAndAsc = orderByObj[sort];
-  const firstDateQuery = firstDate ? `BETWEEN '${firstDate}'` : '';
-  const lastDateQuery = firstDate ? `AND '${lastDate}'` : '';
+  const firstDateQuery = firstDate ? `BETWEEN '${firstDate}'` : "";
+  const lastDateQuery = firstDate ? `AND '${lastDate}'` : "";
 
-  const filtering = await appDataSource.query(`
+  const filtering = await appDataSource.query(
+    `
     SELECT
       lg.name AS locationGroupName,
       p.thumbnail_image_url AS thumbnailImageUrl,
@@ -71,13 +81,16 @@ const mainCategoryFiltering = async (mainCategoryName, sort, firstDate, lastDate
     WHERE mc.eng_name = ? AND DATE(first_date) AND (last_date) ${firstDateQuery} ${lastDateQuery}
     ORDER BY ${descAndAsc}  	
     LIMIT 12 OFFSET 0
-  `, [userId, mainCategoryName]);
+  `,
+    [userId, mainCategoryName]
+  );
 
   return filtering;
-}
+};
 
 const getProductMainCategories = async (mainCategoryName, userId) => {
-  const productsMainCategories = await appDataSource.query(`
+  const productsMainCategories = await appDataSource.query(
+    `
     SELECT 
 	    main_categories.id,
 	    mc.mainCategories,
@@ -140,22 +153,32 @@ const getProductMainCategories = async (mainCategoryName, userId) => {
 	  WHERE main_categories.eng_name = ?
 	  GROUP BY main_categories.id, mc.mainCategories, sc.subCategories
     LIMIT 12 OFFSET 0
-  `, [userId, mainCategoryName, mainCategoryName]);
+  `,
+    [userId, mainCategoryName, mainCategoryName]
+  );
 
   return productsMainCategories;
-}
+};
 
-const subCategoryFiltering = async (mainCategoryName, subCategoryName, sort, firstDate, lastDate, userId) => {
+const subCategoryFiltering = async (
+  mainCategoryName,
+  subCategoryName,
+  sort,
+  firstDate,
+  lastDate,
+  userId
+) => {
   const orderByobj = {
-    desc : '(p.price * (100 - p.discount_rate * 0.01)) DESC',
-    asc : '(p.price * (100 - p.discount_rate * 0.01)) ASC',
-    latest : 'p.created_at DESC'
-  }
-  const descAndAsc = sort ? orderByobj[sort] : 'p.id';
-  const firstDateQuery = firstDate ? `BETWEEN '${firstDate}'` : '';
-  const lastDateQuery = firstDate ? `AND '${lastDate}'` : '';
+    desc: "(p.price * (100 - p.discount_rate * 0.01)) DESC",
+    asc: "(p.price * (100 - p.discount_rate * 0.01)) ASC",
+    latest: "p.created_at DESC",
+  };
+  const descAndAsc = sort ? orderByobj[sort] : "p.id";
+  const firstDateQuery = firstDate ? `BETWEEN '${firstDate}'` : "";
+  const lastDateQuery = firstDate ? `AND '${lastDate}'` : "";
 
-  const filtering = await appDataSource.query(`
+  const filtering = await appDataSource.query(
+    `
     SELECT
       lg.name AS locationGroupName,
       p.thumbnail_image_url AS thumbnailImageUrl,
@@ -183,13 +206,20 @@ const subCategoryFiltering = async (mainCategoryName, subCategoryName, sort, fir
     AND DATE(first_date) AND (last_date) ${firstDateQuery} ${lastDateQuery}
     ORDER BY ${descAndAsc}  	
     LIMIT 12 OFFSET 0
-  `, [userId, mainCategoryName, subCategoryName]);
+  `,
+    [userId, mainCategoryName, subCategoryName]
+  );
 
   return filtering;
-}
+};
 
-const getProductSubCategories = async (mainCategoryName, subCategoryName, userId) => {
-  const productsSubCategories = await appDataSource.query(`
+const getProductSubCategories = async (
+  mainCategoryName,
+  subCategoryName,
+  userId
+) => {
+  const productsSubCategories = await appDataSource.query(
+    `
     SELECT 
       main_categories.id,
       mc.mainCategories,
@@ -253,13 +283,22 @@ const getProductSubCategories = async (mainCategoryName, subCategoryName, userId
     WHERE main_categories.eng_name = ? AND sub_categories.eng_name = ?
     GROUP BY main_categories.id, mc.mainCategories, sc.subCategories
     LIMIT 12 OFFSET 0
-  `, [userId, mainCategoryName, subCategoryName, mainCategoryName, subCategoryName]);
+  `,
+    [
+      userId,
+      mainCategoryName,
+      subCategoryName,
+      mainCategoryName,
+      subCategoryName,
+    ]
+  );
 
   return productsSubCategories;
-}
+};
 
 const getDetailProducts = async (productId) => {
-  const detailProduct = await appDataSource.query(`
+  const detailProduct = await appDataSource.query(
+    `
     SELECT
       p.id,
       p.name, 
@@ -295,30 +334,54 @@ const getDetailProducts = async (productId) => {
       GROUP BY product_id
     ) sq ON sq.product_id=p.id
     WHERE p.id=?
-  `,[productId])
+  `,
+    [productId]
+  );
   return detailProduct;
-}
+};
 
-const addProductImages = async(productId, productImageUrl) => {
-  await appDataSource.query(`
+const addProductImages = async (productId, productImageUrl) => {
+  await appDataSource.query(
+    `
     INSERT INTO product_images (
       image_url,
       product_id
     ) VALUES (?, ?);`,
-    [ productImageUrl, productId ]
-  )
-}
+    [productImageUrl, productId]
+  );
+};
 
-const createProduct = async(userId, name, firstDate, lastDate, price, description, thumbnailImageUrl, participants, discountRate, scheduleTitle, scheduleEtc, classTypeId, subCategoryId, levelId, locationName, locationLatitude, locationLongitude, locationPlaceUrl, locationGroupName) => {
-
-  const locationGroup = await appDataSource.query(`
+const createProduct = async (
+  userId,
+  name,
+  firstDate,
+  lastDate,
+  price,
+  description,
+  thumbnailImageUrl,
+  participants,
+  discountRate,
+  scheduleTitle,
+  scheduleEtc,
+  classTypeId,
+  subCategoryId,
+  levelId,
+  locationName,
+  locationLatitude,
+  locationLongitude,
+  locationPlaceUrl,
+  locationGroupName
+) => {
+  const locationGroup = await appDataSource.query(
+    `
     INSERT INTO location_groups (
       name
     ) VALUES (?);`,
-    [ locationGroupName ]
-  )
+    [locationGroupName]
+  );
 
-  const location = await appDataSource.query(`
+  const location = await appDataSource.query(
+    `
     INSERT INTO location (
       name,
       latitude,
@@ -326,10 +389,17 @@ const createProduct = async(userId, name, firstDate, lastDate, price, descriptio
       place_url,
       location_group_id
     ) VALUES (?, ?, ?, ?, ?);`,
-    [ locationName, locationLatitude, locationLongitude, locationPlaceUrl, locationGroup.insertId ]
-  )
+    [
+      locationName,
+      locationLatitude,
+      locationLongitude,
+      locationPlaceUrl,
+      locationGroup.insertId,
+    ]
+  );
 
-  const product = await appDataSource.query(`
+  const product = await appDataSource.query(
+    `
   INSERT INTO products (
     name,
     first_date,
@@ -347,17 +417,33 @@ const createProduct = async(userId, name, firstDate, lastDate, price, descriptio
     level_id,
     location_id
   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-  [ name, firstDate, lastDate, price, description, thumbnailImageUrl, participants, discountRate, scheduleTitle, scheduleEtc, classTypeId, subCategoryId, userId, levelId, location.insertId ]
-  )
+    [
+      name,
+      firstDate,
+      lastDate,
+      price,
+      description,
+      thumbnailImageUrl,
+      participants,
+      discountRate,
+      scheduleTitle,
+      scheduleEtc,
+      classTypeId,
+      subCategoryId,
+      userId,
+      levelId,
+      location.insertId,
+    ]
+  );
 
   return product.insertId;
-}
+};
 
-const addSchedule = async(productId, schedule) => {
-  
-  const { startTime, finishTime, minutes, content } = schedule
+const addSchedule = async (productId, schedule) => {
+  const { startTime, finishTime, minutes, content } = schedule;
 
-  await appDataSource.query(`
+  await appDataSource.query(
+    `
     INSERT INTO schedules (
       start_time,
       finish_time,
@@ -365,12 +451,13 @@ const addSchedule = async(productId, schedule) => {
       content,
       product_id
     ) VALUES (?, ?, ?, ?, ?);`,
-    [ startTime, finishTime, minutes, content, productId ]
-  )
-}
+    [startTime, finishTime, minutes, content, productId]
+  );
+};
 
 const getProductsList = async (userId) => {
-  return await appDataSource.query(`
+  return await appDataSource.query(
+    `
     SELECT
       p.id AS productId,
       p.name,
@@ -380,38 +467,42 @@ const getProductsList = async (userId) => {
     FROM products AS p
     JOIN sub_categories AS s ON p.sub_category_id = s.id
     WHERE p.user_id = ?;`,
-    [ userId ]
+    [userId]
   );
 };
 
 const deleteProduct = async (userId, productId) => {
-  await appDataSource.query(`
+  await appDataSource.query(
+    `
     DELETE
     FROM product_images AS pi
     WHERE pi.product_id = ?;`,
-    [ productId ]
-  )
-  
-  await appDataSource.query(`
+    [productId]
+  );
+
+  await appDataSource.query(
+    `
     DELETE
     FROM events AS e
     WHERE e.product_id = ?;`,
-    [ productId ]  
-  )
-  
-  await appDataSource.query(`
+    [productId]
+  );
+
+  await appDataSource.query(
+    `
     DELETE
     FROM schedules AS s
     WHERE s.product_id = ?;`,
-    [ productId ]
-  )
+    [productId]
+  );
 
-  return await appDataSource.query(`
+  return await appDataSource.query(
+    `
     DELETE
     FROM products AS p
     WHERE p.user_id = ? AND p.id = ?;`,
-    [ userId, productId ]
-  )
+    [userId, productId]
+  );
 };
 
 module.exports = {
@@ -425,5 +516,5 @@ module.exports = {
   createProduct,
   addSchedule,
   getProductsList,
-  deleteProduct
-}
+  deleteProduct,
+};
